@@ -13,7 +13,6 @@ import pytorch_lightning as pl
 from fastmri.data.mri_data import fetch_dir
 from fastmri.data.subsample import create_mask_for_mask_type
 from fastmri.data.transforms_qalas import QALASDataTransform
-# from fastmri.pl_modules import FastMriDataModuleQALAS, QALASModule
 from fastmri.pl_modules import FastMriDataModuleQALAS, QALAS_MAPModule
 
 import torch.multiprocessing
@@ -139,7 +138,7 @@ def build_args():
     parser = FastMriDataModuleQALAS.add_data_specific_args(parser)
     parser.set_defaults(
         data_path=data_path,  # path to fastMRI data
-        mask_type="qalas",  # "equispaced_fraction", "t2_tse_sag", "t2_tse_cor_spair", "vudu", "qalas"
+        mask_type="qalas",  # "qalas"
         challenge="multicoil",  # only multicoil implemented for QALAS
         batch_size=batch_size,  # number of samples per batch
         test_path=None,  # path for test split, overwrites data_path
@@ -153,8 +152,8 @@ def build_args():
         chans=64,  # number of top-level channels for U-Net (default: 64)
         maps_chans=64,  # number of channels for mapping est. CNN (defalut: 64)
         maps_layers=5,  # number of layers for mapping est. CNN (default: 5)
-        lr=0.001,  # Adam learning rate (default: 0.001) (0.001: nn.Parameter fitting)
-        lr_step_size=1000,  # epoch at which to decrease learning rate (NIST: 100) (0604 NIST: 200)
+        lr=0.001,  # Adam learning rate (default: 0.001)
+        lr_step_size=1000,  # epoch at which to decrease learning rate
         lr_gamma=0.1,  # extent to which to decrease learning rate
         weight_decay=0.0,  # weight regularization strength
     )
@@ -168,7 +167,7 @@ def build_args():
         seed=42,  # random seed
         deterministic=True,  # makes things slower, but deterministic
         default_root_dir=default_root_dir,  # directory for logs and checkpoints
-        max_epochs=500,  # max number of epochs (NIST: 100) (0604 NIST: 200)
+        max_epochs=500,  # max number of epochs
     )
 
     args = parser.parse_args()

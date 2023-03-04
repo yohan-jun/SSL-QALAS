@@ -412,11 +412,6 @@ class MriModuleQALAS_MAP(pl.LightningModule):
             "val_loss_img3": val_logs["val_loss_img3"],
             "val_loss_img4": val_logs["val_loss_img4"],
             "val_loss_img5": val_logs["val_loss_img5"],
-            # "val_loss_img1_tv": val_logs["val_loss_img1_tv"],
-            # "val_loss_img2_tv": val_logs["val_loss_img2_tv"],
-            # "val_loss_img3_tv": val_logs["val_loss_img3_tv"],
-            # "val_loss_img4_tv": val_logs["val_loss_img4_tv"],
-            # "val_loss_img5_tv": val_logs["val_loss_img5_tv"],
             "mse_vals_t1": dict(mse_vals_t1),
             "mse_vals_t2": dict(mse_vals_t2),
             "mse_vals_pd": dict(mse_vals_pd),
@@ -457,11 +452,6 @@ class MriModuleQALAS_MAP(pl.LightningModule):
             "loss_weight_img3": val_logs["loss_weight_img3"],
             "loss_weight_img4": val_logs["loss_weight_img4"],
             "loss_weight_img5": val_logs["loss_weight_img5"],
-            # "loss_weight_img1_tv": val_logs["loss_weight_img1_tv"],
-            # "loss_weight_img2_tv": val_logs["loss_weight_img2_tv"],
-            # "loss_weight_img3_tv": val_logs["loss_weight_img3_tv"],
-            # "loss_weight_img4_tv": val_logs["loss_weight_img4_tv"],
-            # "loss_weight_img5_tv": val_logs["loss_weight_img5_tv"],
         }
 
     def log_image(self, name, image):
@@ -477,11 +467,6 @@ class MriModuleQALAS_MAP(pl.LightningModule):
         losses_img3 = []
         losses_img4 = []
         losses_img5 = []
-        # losses_img1_tv = []
-        # losses_img2_tv = []
-        # losses_img3_tv = []
-        # losses_img4_tv = []
-        # losses_img5_tv = []
         mse_vals_t1 = defaultdict(dict)
         mse_vals_t2 = defaultdict(dict)
         mse_vals_pd = defaultdict(dict)
@@ -525,11 +510,6 @@ class MriModuleQALAS_MAP(pl.LightningModule):
             losses_img3.append(val_log["val_loss_img3"].view(-1))
             losses_img4.append(val_log["val_loss_img4"].view(-1))
             losses_img5.append(val_log["val_loss_img5"].view(-1))
-            # losses_img1_tv.append(val_log["val_loss_img1_tv"].view(-1))
-            # losses_img2_tv.append(val_log["val_loss_img2_tv"].view(-1))
-            # losses_img3_tv.append(val_log["val_loss_img3_tv"].view(-1))
-            # losses_img4_tv.append(val_log["val_loss_img4_tv"].view(-1))
-            # losses_img5_tv.append(val_log["val_loss_img5_tv"].view(-1))
             
 
             for k in val_log["mse_vals_t1"].keys():
@@ -838,17 +818,6 @@ class MriModuleQALAS_MAP(pl.LightningModule):
                                     torch.sum(torch.cat(losses_img5)) * val_log["loss_weight_img5"]) \
                                 / (val_log["loss_weight_t1"] + val_log["loss_weight_t2"] + val_log["loss_weight_pd"] + \
                                     val_log["loss_weight_img1"] + val_log["loss_weight_img2"] + val_log["loss_weight_img3"] + val_log["loss_weight_img4"] + val_log["loss_weight_img5"]))
-        # val_loss = self.ValLoss((torch.sum(torch.cat(losses_t1)) * val_log["loss_weight_t1"] + torch.sum(torch.cat(losses_t2)) * val_log["loss_weight_t2"] + \
-        #                             torch.sum(torch.cat(losses_pd)) * val_log["loss_weight_pd"] + \
-        #                             torch.sum(torch.cat(losses_img1)) * val_log["loss_weight_img1"] + torch.sum(torch.cat(losses_img2)) * val_log["loss_weight_img2"] + \
-        #                             torch.sum(torch.cat(losses_img3)) * val_log["loss_weight_img3"] + torch.sum(torch.cat(losses_img4)) * val_log["loss_weight_img4"] + \
-        #                             torch.sum(torch.cat(losses_img5)) * val_log["loss_weight_img5"] + \
-        #                             torch.sum(torch.cat(losses_img1_tv)) * val_log["loss_weight_img1_tv"] + torch.sum(torch.cat(losses_img2_tv)) * val_log["loss_weight_img2_tv"] + \
-        #                             torch.sum(torch.cat(losses_img3_tv)) * val_log["loss_weight_img3_tv"] + torch.sum(torch.cat(losses_img4_tv)) * val_log["loss_weight_img4_tv"] + \
-        #                             torch.sum(torch.cat(losses_img5_tv)) * val_log["loss_weight_img5_tv"]) \
-        #                         / (val_log["loss_weight_t1"] + val_log["loss_weight_t2"] + val_log["loss_weight_pd"] + \
-        #                             val_log["loss_weight_img1"] + val_log["loss_weight_img2"] + val_log["loss_weight_img3"] + val_log["loss_weight_img4"] + val_log["loss_weight_img5"] + \
-        #                             val_log["loss_weight_img1_tv"] + val_log["loss_weight_img2_tv"] + val_log["loss_weight_img3_tv"] + val_log["loss_weight_img4_tv"] + val_log["loss_weight_img5_tv"]))
         tot_slice_examples = self.TotSliceExamples(
             torch.tensor(len(losses_t1), dtype=torch.float)
         )
