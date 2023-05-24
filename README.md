@@ -3,7 +3,7 @@
 This is the official code for **"SSL-QALAS: Self-Supervised Learning for Rapid Multiparameter Estimation in Quantitative MRI Using 3D-QALAS"**.
 The related abstract is published at [International Society for Magnetic Resonance in Medicine (ISMRM) Annual Meeting 2023](https://www.ismrm.org/23m/).
 
-The baseline code is based on fastMRI code, which is forked from https://github.com/facebookresearch/fastMRI
+The baseline code is based on fastMRI code, which is forked from [here](https://github.com/facebookresearch/fastMRI)\
 For dependencies and installation, please follow [here](https://github.com/facebookresearch/fastMRI#dependencies-and-installation)
 
 If you have any questions/comments/suggestions, please contact at yjun@mgh.harvard.edu
