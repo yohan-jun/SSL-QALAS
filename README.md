@@ -13,7 +13,7 @@ If you use the SSL-QALAS code in your project, please cite the following abstrac
 
 ```BibTeX
 @inproceedings{jun2023SSL-QALAS,
-    title={Deep Subspace Reconstruction with Zero-Shot Learning for Multiparametric Quantitative {MRI}},
+    title={{SSL-QALAS}: Self-Supervised Learning for Rapid Multiparameter Estimation in Quantitative {MRI} Using {3D-QALAS}},
     author={Yohan Jun and Jaejin Cho and Xiaoqing Wang and Michael Gee and P. Ellen Grant and Berkin Bilgic and And Borjan Gagoski},
     journal={International Society for Magnetic Resonance in Medicine (ISMRM) Annual Meeting},
     year={2023}
