@@ -1,5 +1,7 @@
 # SSL-QALAS: Self-Supervised Learning for Rapid Multiparameter Estimation in Quantitative MRI Using 3D-QALAS
 
+![Alt text](figure/SSL-QALAS.jpg?raw=true "SSL-QALAS")
+
 This is the official code for **"SSL-QALAS: Self-Supervised Learning for Rapid Multiparameter Estimation in Quantitative MRI Using 3D-QALAS"**.
 The related abstract is published at [International Society for Magnetic Resonance in Medicine (ISMRM) Annual Meeting 2023](https://www.ismrm.org/23m/).
 
