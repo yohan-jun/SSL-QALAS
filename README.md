@@ -35,10 +35,9 @@ To make .h5 file, run `ssl_qalas_save_h5_from_dicom.m` matlab file
 If the same subject data is used for validation (i.e., subject specific training and validation), copy `train_data.h5` and paste under `matlab/h5_data/multicoil_val`.
 (Optional) To compare the SSL-QALAS with the reference maps (e.g., dictionary matching results), please put them under `matlab/map_data` (format: .mat file which may contain T1_map, T2_map, PD_map, IE_map, and B1_map)
 
-
+## Cite
 If you have any questions/comments/suggestions, please contact at yjun@mgh.harvard.edu
 
-## Cite
 If you use the SSL-QALAS code in your project, please cite the following paper:
 
 ```BibTeX
