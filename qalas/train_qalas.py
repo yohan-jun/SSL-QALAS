@@ -76,7 +76,7 @@ def cli_main(args):
     # ------------
     # trainer
     # ------------
-    trainer = pl.Trainer.from_argparse_args(args, gpus=[0], log_every_n_steps=1)
+    trainer = pl.Trainer.from_argparse_args(args, gpus=[1], log_every_n_steps=1)
 
     # ------------
     # run

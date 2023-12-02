@@ -121,11 +121,11 @@ class QALAS_MAPModule(MriModuleQALAS_MAP):
         # img_acq5 = fastmri.complex_abs(fastmri.complex_mul(fastmri.ifft2c(batch.masked_kspace_acq5), fastmri.complex_conj(batch.coil_sens)).sum(dim=1, keepdim=True)) / np.sqrt(batch.masked_kspace_acq5.shape[2] * batch.masked_kspace_acq5.shape[3])
 
         # If DICOM data were used, use following 5 lines
-        img_acq1 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq1[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq1.shape[2] * batch.masked_kspace_acq1.shape[3])
-        img_acq2 = -fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq2[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq2.shape[2] * batch.masked_kspace_acq2.shape[3])
-        img_acq3 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq3[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq3.shape[2] * batch.masked_kspace_acq3.shape[3])
-        img_acq4 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq4[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq4.shape[2] * batch.masked_kspace_acq4.shape[3])
-        img_acq5 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq5[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq5.shape[2] * batch.masked_kspace_acq5.shape[3])
+        img_acq1 = batch.masked_kspace_acq1
+        img_acq2 = -batch.masked_kspace_acq2
+        img_acq3 = batch.masked_kspace_acq3
+        img_acq4 = batch.masked_kspace_acq4
+        img_acq5 = batch.masked_kspace_acq5
 
         target_t1, output_t1 = transforms_qalas.center_crop_to_smallest(batch.target_t1, output_t1)
         target_t2, output_t2 = transforms_qalas.center_crop_to_smallest(batch.target_t2, output_t2)
@@ -254,11 +254,11 @@ class QALAS_MAPModule(MriModuleQALAS_MAP):
         # img_acq5 = fastmri.complex_abs(fastmri.complex_mul(fastmri.ifft2c(batch.masked_kspace_acq5), fastmri.complex_conj(batch.coil_sens)).sum(dim=1, keepdim=True)) / np.sqrt(batch.masked_kspace_acq5.shape[2] * batch.masked_kspace_acq5.shape[3])
 
         # If DICOM data were used, use following 5 lines
-        img_acq1 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq1[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq1.shape[2] * batch.masked_kspace_acq1.shape[3])
-        img_acq2 = -fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq2[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq2.shape[2] * batch.masked_kspace_acq2.shape[3])
-        img_acq3 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq3[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq3.shape[2] * batch.masked_kspace_acq3.shape[3])
-        img_acq4 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq4[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq4.shape[2] * batch.masked_kspace_acq4.shape[3])
-        img_acq5 = fastmri.complex_abs(fastmri.ifft2c(batch.masked_kspace_acq5[:,0:1,...])) / np.sqrt(batch.masked_kspace_acq5.shape[2] * batch.masked_kspace_acq5.shape[3])
+        img_acq1 = batch.masked_kspace_acq1
+        img_acq2 = -batch.masked_kspace_acq2
+        img_acq3 = batch.masked_kspace_acq3
+        img_acq4 = batch.masked_kspace_acq4
+        img_acq5 = batch.masked_kspace_acq5
 
         target_t1, output_t1 = transforms_qalas.center_crop_to_smallest(batch.target_t1, output_t1)
         target_t2, output_t2 = transforms_qalas.center_crop_to_smallest(batch.target_t2, output_t2)

@@ -223,7 +223,7 @@ class QALAS_MAP(nn.Module):
         mask_acq4: torch.Tensor,
         mask_acq5: torch.Tensor,
         mask_brain: torch.Tensor,
-        coil_sens: torch.Tensor,
+        # coil_sens: torch.Tensor,
         b1: torch.Tensor,
         ie: torch.Tensor,
         max_value_t1: torch.Tensor,
@@ -241,18 +241,20 @@ class QALAS_MAP(nn.Module):
         # image_pred_acq5 = fastmri.complex_abs(fastmri.complex_mul(fastmri.ifft2c(masked_kspace_acq5), fastmri.complex_conj(coil_sens)).sum(dim=1, keepdim=True) / np.sqrt(masked_kspace_acq5.shape[2] * masked_kspace_acq5.shape[3]))
 
         # If DICOM data were used, use following 5 lines
-        image_pred_acq1 = fastmri.complex_abs(fastmri.ifft2c(masked_kspace_acq1[:,0:1,...]) / np.sqrt(masked_kspace_acq1.shape[2] * masked_kspace_acq1.shape[3]))
-        image_pred_acq2 = fastmri.complex_abs(fastmri.ifft2c(masked_kspace_acq2[:,0:1,...]) / np.sqrt(masked_kspace_acq2.shape[2] * masked_kspace_acq2.shape[3]))
-        image_pred_acq3 = fastmri.complex_abs(fastmri.ifft2c(masked_kspace_acq3[:,0:1,...]) / np.sqrt(masked_kspace_acq3.shape[2] * masked_kspace_acq3.shape[3]))
-        image_pred_acq4 = fastmri.complex_abs(fastmri.ifft2c(masked_kspace_acq4[:,0:1,...]) / np.sqrt(masked_kspace_acq4.shape[2] * masked_kspace_acq4.shape[3]))
-        image_pred_acq5 = fastmri.complex_abs(fastmri.ifft2c(masked_kspace_acq5[:,0:1,...]) / np.sqrt(masked_kspace_acq5.shape[2] * masked_kspace_acq5.shape[3]))
+        image_pred_acq1 = masked_kspace_acq1
+        image_pred_acq2 = masked_kspace_acq2
+        image_pred_acq3 = masked_kspace_acq3
+        image_pred_acq4 = masked_kspace_acq4
+        image_pred_acq5 = masked_kspace_acq5
 
         # Using CNN for Mapping
         map_pred = self.maps_net(torch.cat((image_pred_acq1, image_pred_acq2, image_pred_acq3, image_pred_acq4, image_pred_acq5), 1))
+        # map_pred = self.maps_net(torch.cat((image_pred_acq1, image_pred_acq2, image_pred_acq3, image_pred_acq4, image_pred_acq5, b1.unsqueeze(1).to(image_pred_acq1.device)), 1))
 
         map_pred_t1 = map_pred[:,0:1,:,:] * max_value_t1[0,:]
         map_pred_t2 = map_pred[:,1:2,:,:] * max_value_t2[0,:]
-        map_pred_pd = map_pred[:,2:3,:,:]
+        # map_pred_pd = map_pred[:,2:3,:,:]
+        map_pred_pd = map_pred[:,2:3,:,:] / torch.sin(np.pi / 180 * torch.Tensor([4]).to(map_pred.device))
         map_pred_ie = map_pred[:,3:4,:,:] * (1 - 0.5) + 0.5 # 0.5-1.0
 
         map_pred_b1 = b1.unsqueeze(1).to(map_pred.device)
@@ -338,25 +340,30 @@ class QALASBlock(nn.Module):
             m_current = m_current * (torch.sin(t2_rad) * torch.sin(t2_rad) * ET2 + \
                                     torch.cos(t2_rad) * torch.cos(t2_rad) * ET1)                        # M2, w/ b1 cor.
             m_current = x_m0 * (1 - Eda) + m_current * Eda                                              # M2 (del_t = 0.0097)
-            current_img_acq1 = m_current                                                                ### Acq1
+            # current_img_acq1 = m_current                                                                ### Acq1
+            current_img_acq1 = m_current * torch.sin(np.pi / 180 * flip_ang)                            ### Acq1
             m_current = x_m0_star * (1 - Eetl) + m_current * Eetl                                       # M3 (del_t = 0.7296)
             m_current = x_m0 * (1 - Ed4) + m_current * Ed4                                              # M4 (del_t = 0.1221)
             m_current = -m_current * x_ie                                                               # M5
             m_current = x_m0 * (1 - Ed6) + m_current * Ed6                                              # M6 (del_t = 0.0355)
             m_current = x_m0 * (1 - Edb) + m_current * Edb                                              # M6 (del_t = 0)
-            current_img_acq2 = m_current                                                                ### Acq2
+            # current_img_acq2 = m_current                                                                ### Acq2
+            current_img_acq2 = m_current * torch.sin(np.pi / 180 * flip_ang)                            ### Acq2
             m_current = x_m0_star * (1 - Eetl) + m_current * Eetl                                       # M7 (del_t = 0.7296)
             m_current = x_m0 * (1 - Ed8) + m_current * Ed8                                              # M8 (del_t = 0.1704)
             m_current = x_m0 * (1 - Edb) + m_current * Edb                                              # M8 (del_t = 0)
-            current_img_acq3 = m_current                                                                ### Acq3
+            # current_img_acq3 = m_current                                                                ### Acq3
+            current_img_acq3 = m_current * torch.sin(np.pi / 180 * flip_ang)                            ### Acq3
             m_current = x_m0_star * (1 - Eetl) + m_current * Eetl                                       # M9 (del_t = 0.7296)
             m_current = x_m0 * (1 - Ed10) + m_current * Ed10                                            # M10 (del_t = 0.1704)
             m_current = x_m0 * (1 - Edb) + m_current * Edb                                              # M10 (del_t = 0)
-            current_img_acq4 = m_current                                                                ### Acq4
+            # current_img_acq4 = m_current                                                                ### Acq4
+            current_img_acq4 = m_current * torch.sin(np.pi / 180 * flip_ang)                            ### Acq4
             m_current = x_m0_star * (1 - Eetl) + m_current * Eetl                                       # M11 (del_t = 0.7296)
             m_current = x_m0 * (1 - Ed12) + m_current * Ed12                                            # M12 (del_t = 0.1704)
             m_current = x_m0 * (1 - Edb) + m_current * Edb                                              # M12 (del_t = 0)
-            current_img_acq5 = m_current                                                                ### Acq5
+            # current_img_acq5 = m_current                                                                ### Acq5
+            current_img_acq5 = m_current * torch.sin(np.pi / 180 * flip_ang)                            ### Acq5
             m_current = x_m0_star * (1 - Eetl) + m_current * Eetl                                       # M13 (del_t = 0.7296)
             m_current = x_m0 * (1 - Ed14) + m_current * Ed14                                            # M14
 
