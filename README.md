@@ -5,9 +5,9 @@
 
 This is the official code for **"SSL-QALAS: Self-Supervised Learning for Rapid Multiparameter Estimation in Quantitative MRI Using 3D-QALAS"**.
 
-The related paper is published at [Magnetic Resonance in Medicine](https://onlinelibrary.wiley.com/doi/abs/10.1002/mrm.29786).
+The related paper is published at [Magnetic Resonance in Medicine](https://doi.org/10.1002/mrm.29786).
 
-The baseline code is based on fastMRI code, which is forked from [here](https://github.com/facebookresearch/fastMRI)
+The baseline code is based on fastMRI code, which is forked from [here](https://github.com/facebookresearch/fastMRI).
 
 ## Installation
 For dependencies and installation, please follow below:
@@ -47,10 +47,14 @@ If you have any questions/comments/suggestions, please contact at yjun@mgh.harva
 If you use the SSL-QALAS code in your project, please cite the following paper:
 
 ```BibTeX
-@inproceedings{jun2023SSL-QALAS,
-    title={{SSL-QALAS}: Self-Supervised Learning for rapid multiparameter estimation in quantitative {MRI} using {3D-QALAS}},
-    author={Yohan Jun and Jaejin Cho and Xiaoqing Wang and Michael Gee and P. Ellen Grant and Berkin Bilgic and And Borjan Gagoski},
-    journal={Magnetic Resonance in Medicine},
-    year={2023}
+@article{jun2023SSL-QALAS,
+  title={{SSL-QALAS}: Self-Supervised Learning for rapid multiparameter estimation in quantitative {MRI} using {3D-QALAS}},
+  author={Jun, Yohan and Cho, Jaejin and Wang, Xiaoqing and Gee, Michael and Grant, P. Ellen and Bilgic, Berkin and Gagoski, Borjan},
+  journal={Magnetic resonance in medicine},
+  volume={90},
+  number={5},
+  pages={2019--2032},
+  year={2023},
+  publisher={Wiley Online Library}
 }
 ```
