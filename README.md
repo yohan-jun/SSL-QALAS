@@ -32,6 +32,21 @@ To track the training and validation logs, run the tensorboard as below:
 tensorboard --logdir=qalas_log/lightning_logs
 ```
 
+## Inference
+To infer the model, run `inference_qalas_map.py` as below:
+
+```bash
+python inference_qalas_map.py --data_path matlab/h5_data/multicoil_val --state_dict_file qalas_log/checkpoints/epoch=XXX-step=XXXX.ckpt --output_path matlab/h5_data
+```
+
+The reconstructed maps can be read on Matlab using h5read matlab function:
+```bash
+T1 = h5read('train_data.h5','/reconstruction_t1');
+T2 = h5read('train_data.h5','/reconstruction_t2');
+PD = h5read('train_data.h5','/reconstruction_pd');
+IE = h5read('train_data.h5','/reconstruction_ie');
+```
+
 ## Generating Training and Validation Data
 To make .h5 file, run `ssl_qalas_save_h5_from_dicom.m` matlab file
 

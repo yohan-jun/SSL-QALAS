@@ -35,7 +35,7 @@ def run_model(batch, model, device):
         output_img1, output_img2, output_img3, output_img4, output_img5 = \
             model(batch.masked_kspace_acq1.to(device), batch.masked_kspace_acq2.to(device), batch.masked_kspace_acq3.to(device), batch.masked_kspace_acq4.to(device), batch.masked_kspace_acq5.to(device), \
                 batch.mask_acq1, batch.mask_acq2, batch.mask_acq3, batch.mask_acq4, batch.mask_acq5, batch.mask_brain, \
-                batch.coil_sens, batch.b1, batch.ie, \
+                batch.b1, batch.ie, \
                 batch.max_value_t1.to(device), batch.max_value_t2.to(device), batch.max_value_pd.to(device), batch.num_low_frequencies.to(device))
 
     # detect FLAIR 203
