@@ -25,6 +25,8 @@ To train the model, run `train_qalas.py` as below:
 python train_qalas.py --data_path matlab/h5_data --check_val_every_n_epoch 4
 ```
 
+Note: some of the variables (e.g., turbo factor or echo spacing) might need to be updated in the  `fastmri/models/qalas_map.py` (L287-L288) based on your sequence.
+
 ## Training and Validation Logs
 To track the training and validation logs, run the tensorboard as below:
 
@@ -39,7 +41,8 @@ To infer the model, run `inference_qalas_map.py` as below:
 python inference_qalas_map.py --data_path matlab/h5_data/multicoil_val --state_dict_file qalas_log/checkpoints/epoch=XXX-step=XXXX.ckpt --output_path matlab/h5_data
 ```
 
-The reconstructed maps can be read on Matlab using h5read matlab function:
+The reconstructed maps under `matlab/h5_data/reconstructions` can be read on Matlab using `h5read` matlab function:
+
 ```bash
 T1 = h5read('train_data.h5','/reconstruction_t1');
 T2 = h5read('train_data.h5','/reconstruction_t2');
