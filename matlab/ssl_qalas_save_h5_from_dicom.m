@@ -11,7 +11,7 @@ addpath(genpath('utils'));
 savepath = 'h5_data/multicoil_train/';
 savename = 'train_data.h5';
 
-compare_ref_map     = 1;
+compare_ref_map     = 0;
 % 1 (compare ssl-qalas with reference maps (e.g., dictionary matching) during training)
 % 0 (no comparison > will use zeros)
 
@@ -19,10 +19,15 @@ load_b1_map         = 1;
 % 1 (load pre-acquired b1 map)
 % 0 (no b1 map)
 
+b1_type             = 1;
+% 1 (TFL-based)
+% 2 (AFI-based)
+
 
 %% LOAD DATA
 
-dpath       = 'dicom_data/image/';
+dpath       = 'dicom_data/image/qalas';
+b1path      = 'dicom_data/image/b1';
 
 if compare_ref_map == 1
     load('map_data/ref_map.mat');
@@ -31,12 +36,23 @@ end
 fprintf('loading data ... ');
 tic
 input_img   = single(dicomread_dir(dpath));
-input_img = input_img(:,:,1:2:end);
 input_img   = reshape(input_img,[size(input_img,1),size(input_img,2),size(input_img,3)/5,1,5]);
+
+if load_b1_map == 1
+    B1_map = single(dicomread_dir(b1path));
+    if b1_type == 1
+        B1_map = B1_map./800; % for TFL-based B1
+    elseif b1_type == 2
+        B1_map = B1_map./60; % for AFI-based B1
+    end
+    B1_map = imresize3(B1_map,[size(input_img,1),size(input_img,2),size(input_img,3)]);
+    B1_map(B1_map>1.35) = 1.35;
+    B1_map(B1_map<0.65) = 0.65;
+end
 toc
 
 
-%% Brain Mask (simple thresholding mask)
+%% Brain Mask (simple thresholding mask) -> may not be accurate
 
 threshold = 50;
 
@@ -55,8 +71,8 @@ input_img       = input_img./max(input_img(:));
 sens            = ones(Nx,Ny,Nz,1,'single');
 mask            = ones(Nx,Ny,'single');
 if compare_ref_map == 0
-    T1_map = ones(Nx,Ny,Nz,'single');
-    T2_map = ones(Nx,Ny,Nz,'single');
+    T1_map = ones(Nx,Ny,Nz,'single').*5;
+    T2_map = ones(Nx,Ny,Nz,'single').*2.5;
     PD_map = ones(Nx,Ny,Nz,'single');
     IE_map = ones(Nx,Ny,Nz,'single');
 end
